@@ -25,8 +25,7 @@ function love.update(dt)
   if love.keyboard.isDown("up") then
     num = num + 100 * dt -- this would increment num by 100 per second
   elseif love.keyboard.isDown("escape") then
-    love.quit()
-    -- system.exit(0)
+    love.event.push("q")
   end
 end
 
