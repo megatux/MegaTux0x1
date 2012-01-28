@@ -2,6 +2,7 @@
 
 function love.load()
   image = love.graphics.newImage("tag_ruby.jpg")
+
   local f = love.graphics.newFont(12)
   love.graphics.setFont(f)
   love.graphics.setColor(0,0,0,255)
@@ -10,6 +11,7 @@ function love.load()
   num = 0
   dt = 0
   gameIsPaused = false
+  imgx, imgy = 100, 100
 end
 
 function love.draw()
@@ -18,12 +20,11 @@ function love.draw()
 end
 
 function love.update(dt)
-  -- if gameIsPaused then return end
+  if gameIsPaused then return end
 
   if love.keyboard.isDown("up") then
     num = num + 100 * dt -- this would increment num by 100 per second
-  end
-  if love.keyboard.isDown("escape") then
+  elseif love.keyboard.isDown("escape") then
     love.quit()
     -- system.exit(0)
   end
