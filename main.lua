@@ -6,7 +6,6 @@ function love.load()
 
   local f = love.graphics.newFont(12)
   love.graphics.setFont(f)
-  love.graphics.setColor(0,0,0,255)
   love.graphics.setBackgroundColor(255,255,255)
 
   num = 0
@@ -29,18 +28,19 @@ end
 -- every frame, drawing
 function love.draw()
   love.graphics.draw(image, player.x, player.y)
+
   love.graphics.print("Click and drag the cake around or use the arrow keys", 10, 10)
-
-  love.graphics.print("Player x:"..player[x], 10, 50)
-  love.graphics.print("Player y:"..player[y], 10, 80)
-
+  love.graphics.print("Player x:"..player[x], 10, 30)
+  love.graphics.print("Player y:"..player[y], 10, 50)
 end
 
--- function love.keypressed(key, unicode)
---   if unicode > 31 and unicode < 127 then
---     text = text .. string.char(unicode)
---   end
--- end
+function love.keypressed(key, unicode)
+  if unicode > 31 and unicode < 127 then
+    -- cheat codes?
+  elseif love.keyboard.isDown("escape") then
+    love.event.push("q")
+  end
+end
 
 -- every frame, calculations
 function love.update(dt)
@@ -48,6 +48,13 @@ function love.update(dt)
 
   if love.keyboard.isDown("up") then
     num = num + 100 * dt -- this would increment num by 100 per second
+    player.y = player.y - 5
+  elseif love.keyboard.isDown("down") then
+    player.y = player.y + 5
+  elseif love.keyboard.isDown("left") then
+    player.x = player.x - 5
+  elseif love.keyboard.isDown("right") then
+    player.x = player.x + 5
   elseif love.keyboard.isDown("escape") then
     love.event.push("q")
   end
@@ -55,8 +62,7 @@ end
 
 function love.mousepressed(x, y, button)
    if button == 'l' then -- left mouse click
-      player.x = x
-      player.y = y
+      update_player_position(x,y)
    end
 end
 
@@ -80,5 +86,11 @@ function love.quit()
 end
 
 function fireSlingshot(x,y)
-  print("bum!")
+  print("released")
+  update_player_position(x, y)
+end
+
+function update_player_position(x, y)
+  player.x = x
+  player.y = y
 end
