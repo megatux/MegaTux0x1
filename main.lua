@@ -1,7 +1,8 @@
 -- example love app
 
+-- first, one time
 function love.load()
-  image = love.graphics.newImage("tag_ruby.jpg")
+  image = love.graphics.newImage("player.jpg")
 
   local f = love.graphics.newFont(12)
   love.graphics.setFont(f)
@@ -10,15 +11,38 @@ function love.load()
 
   num = 0
   dt = 0
+
   gameIsPaused = false
-  imgx, imgy = 100, 100
+
+  screen_height = love.graphics.getHeight()
+  screen_width = love.graphics.getWidth()
+
+  x = "x"
+  y = "y"
+  player = {x = screen_width/2, y = screen_height/2}
 end
 
+function getX()
+  return player[x]
+end
+
+-- every frame, drawing
 function love.draw()
-  love.graphics.draw(image, imgx, imgy)
+  love.graphics.draw(image, player.x, player.y)
   love.graphics.print("Click and drag the cake around or use the arrow keys", 10, 10)
+
+  love.graphics.print("Player x:"..player[x], 10, 50)
+  love.graphics.print("Player y:"..player[y], 10, 80)
+
 end
 
+-- function love.keypressed(key, unicode)
+--   if unicode > 31 and unicode < 127 then
+--     text = text .. string.char(unicode)
+--   end
+-- end
+
+-- every frame, calculations
 function love.update(dt)
   if gameIsPaused then return end
 
@@ -30,9 +54,9 @@ function love.update(dt)
 end
 
 function love.mousepressed(x, y, button)
-   if button == 'l' then
-      imgx = x -- move image to where mouse clicked
-      imgy = y
+   if button == 'l' then -- left mouse click
+      player.x = x
+      player.y = y
    end
 end
 
