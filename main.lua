@@ -26,7 +26,7 @@ end
 -- every frame, drawing
 function love.draw()
   -- love.graphics.setColor(255,255,255,0)
-  love.graphics.draw(image, player.x, player.y)
+  love.graphics.draw(image, player.x, player.y, 0, player.size, player.size)
   -- love.graphics.setColor(0,0,0,255)
   love.graphics.print("Click and drag the cake around or use the arrow keys", 10, 10)
   love.graphics.print("Player x:"..player.getX(), 10, 30)
@@ -81,13 +81,13 @@ end
 function handle_keys()
   if love.keyboard.isDown("up") then
     num = num + 100 * dt -- this would increment num by 100 per second
-    player.y = player.y - 5
+    player.move_up()
   elseif love.keyboard.isDown("down") then
-    player.y = player.y + 5
+    player.move_down()
   elseif love.keyboard.isDown("left") then
-    player.x = player.x - 5
+    player.move_left()
   elseif love.keyboard.isDown("right") then
-    player.x = player.x + 5
+    player.move_right()
   elseif love.keyboard.isDown("escape") then
     love.event.push("q")
   elseif love.keyboard.isDown("+") then
