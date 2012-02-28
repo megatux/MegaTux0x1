@@ -1,10 +1,16 @@
 -- example love app
 
 require "player"
+require "camera"
 
+-- -----------------------------------------------------------------------------
 -- first, one time
 function love.load()
-  image = love.graphics.newImage("player.jpg")
+  -- The amazing music.
+  music = love.audio.newSource("prondisk.xm")
+
+  -- image = love.graphics.newImage("player.jpg")
+  image = love.graphics.newImage("Gatopan.gif")
 
   local f = love.graphics.newFont(12)
   love.graphics.setFont(f)
@@ -21,18 +27,30 @@ function love.load()
   x = "x"
   y = "y"
   player.update_position(screen_width/2, screen_height/2)
+  
+  love.audio.play(music, 0)
 end
 
+-- -----------------------------------------------------------------------------
 -- every frame, drawing
 function love.draw()
+  
+  camera:set()
+  
+  
   -- love.graphics.setColor(255,255,255,0)
   love.graphics.draw(image, player.x, player.y, 0, player.size, player.size)
   -- love.graphics.setColor(0,0,0,255)
   love.graphics.print("Click and drag the cake around or use the arrow keys", 10, 10)
   love.graphics.print("Player x:"..player.getX(), 10, 30)
   love.graphics.print("Player y:"..player.getY(), 10, 50)
+  
+  
+  camera:unset()
+  
 end
 
+-- -----------------------------------------------------------------------------
 function love.keypressed(key, unicode)
   if unicode > 31 and unicode < 127 then
     -- cheat codes?
@@ -41,6 +59,7 @@ function love.keypressed(key, unicode)
   end
 end
 
+-- -----------------------------------------------------------------------------
 -- every frame, calculations
 function love.update(dt)
   if gameIsPaused then return end
@@ -48,18 +67,21 @@ function love.update(dt)
   handle_keys()
 end
 
+-- -----------------------------------------------------------------------------
 function love.mousepressed(x, y, button)
    if button == 'l' then -- left mouse click
       player.update_position(x,y)
    end
 end
 
+-- -----------------------------------------------------------------------------
 function love.mousereleased(x, y, button)
    if button == 'l' then
       fireSlingshot(x,y)
    end
 end
 
+-- -----------------------------------------------------------------------------
 function love.focus(f)
   gameIsPaused = not f
   if not f then
@@ -69,15 +91,18 @@ function love.focus(f)
   end
 end
 
+-- -----------------------------------------------------------------------------
 function love.quit()
   print("Thanks for playing! Come back soon!")
 end
 
+-- -----------------------------------------------------------------------------
 function fireSlingshot(x,y)
   print("released")
   player.update_position(x, y)
 end
 
+-- -----------------------------------------------------------------------------
 function handle_keys()
   if love.keyboard.isDown("up") then
     num = num + 100 * dt -- this would increment num by 100 per second
@@ -90,7 +115,11 @@ function handle_keys()
     player.move_right()
   elseif love.keyboard.isDown("escape") then
     love.event.push("q")
-  elseif love.keyboard.isDown("+") then
-    player.bigger()
+  elseif love.keyboard.isDown("a") then
+      player.bigger()
+  elseif love.keyboard.isDown("s") then
+    player.smaller()
+  elseif love.keyboard.isDown("z") then
+    player.camera()
   end
 end

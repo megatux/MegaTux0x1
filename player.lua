@@ -33,3 +33,17 @@ end
 player.bigger = function()
   player.size = player.size * 1.1
 end
+
+player.smaller = function()
+  player.size = player.size * 0.9
+end
+
+
+player.c = false
+player.camera = function()
+  if not player.c then
+    player.c = true
+    camera.x = 50
+    camera:scale(2)
+  end
+end
