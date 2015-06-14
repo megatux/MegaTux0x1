@@ -7,10 +7,10 @@ require "camera"
 -- first, one time
 function love.load()
   -- The amazing music.
-  music = love.audio.newSource("prondisk.xm")
+  music = love.audio.newSource("data/prondisk.xm")
 
   -- image = love.graphics.newImage("player.jpg")
-  image = love.graphics.newImage("Gatopan.gif")
+  image = love.graphics.newImage("data/Gatopan.gif")
 
   local f = love.graphics.newFont(12)
   love.graphics.setFont(f)
@@ -27,27 +27,27 @@ function love.load()
   x = "x"
   y = "y"
   player.update_position(screen_width/2, screen_height/2)
-  
+
   love.audio.play(music, 0)
 end
 
 -- -----------------------------------------------------------------------------
 -- every frame, drawing
 function love.draw()
-  
+
   camera:set()
-  
-  
+
+
   -- love.graphics.setColor(255,255,255,0)
   love.graphics.draw(image, player.x, player.y, 0, player.size, player.size)
   -- love.graphics.setColor(0,0,0,255)
   love.graphics.print("Click and drag the cake around or use the arrow keys", 10, 10)
   love.graphics.print("Player x:"..player.getX(), 10, 30)
   love.graphics.print("Player y:"..player.getY(), 10, 50)
-  
-  
+
+
   camera:unset()
-  
+
 end
 
 -- -----------------------------------------------------------------------------
